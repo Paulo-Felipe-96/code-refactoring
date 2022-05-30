@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "I am practicing knowledge with code refactoring.",
   "main": "index.js",
+  "type": "module",
   "scripts": {},
   "keywords": [],
   "author": "Paulo-Felipe-96",
