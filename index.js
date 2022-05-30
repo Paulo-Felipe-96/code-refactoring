@@ -1,6 +1,7 @@
-import fetch from "node-fetch";
+import axios from "axios";
 
 const consoleFetchedData = (data) => {
+  console.log(data);
   data.forEach((element) => {
     console.log("Nome:", element.name);
     console.log("Idade média:", element.age);
@@ -10,16 +11,21 @@ const consoleFetchedData = (data) => {
 };
 
 async function fetchAgifyData(country) {
-  const baseUrl = `https://api.agify.io/?name[]=victor&name[]=milson&name[]=gabriela&name[]=patricia&name[]=wagner&name[]=brenda`;
-  const completeUrl = country ? baseUrl + `&country_id=${country}` : baseUrl;
+  const baseUrl = `https://api.agify.io/`;
 
   try {
-    const request = await fetch(completeUrl);
-    return request.json();
+    return axios
+      .get(baseUrl, {
+        params: {
+          name: ["victor","milson","gabriela","patricia","wagner","brenda",],
+          ...country && {country_id: country},
+        },
+      })
+      .then((data) => consoleFetchedData(data.data))
+      .catch((e) => console.warn(`Error: ${e}`));
   } catch (e) {
     console.warn(`Error: ${e}`);
   }
 }
 
-fetchAgifyData("CA").then((data) => consoleFetchedData(data));
-fetchAgifyData().then((data) => consoleFetchedData(data));
+fetchAgifyData("CA");
